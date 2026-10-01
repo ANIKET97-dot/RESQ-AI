@@ -1,0 +1,11 @@
+[
+  "tests/test_backend.py::test_disasters_endpoint",
+  "tests/test_backend.py::test_hospitals_endpoint",
+  "tests/test_backend.py::test_research_query",
+  "tests/test_backend.py::test_risk_engine",
+  "tests/test_backend.py::test_roads_endpoint",
+  "tests/test_backend.py::test_root_endpoint",
+  "tests/test_backend.py::test_routing_engine",
+  "tests/test_backend.py::test_shelters_endpoint",
+  "tests/test_backend.py::test_situation_report"
+]
