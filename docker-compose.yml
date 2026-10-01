@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    ports:
+      - "8000:8000"
+    environment:
+      - DEMO_MODE=true
+      - WEATHER_API_KEY=${WEATHER_API_KEY}
+      - POSTGRES_DB=resqai_db
+      - POSTGRES_USER=resqai_user
+      - POSTGRES_PASSWORD=resqai_pass
+      - POSTGRES_HOST=postgres
+      - NEO4J_URI=bolt://neo4j:7687
+    depends_on:
+      - postgres
+      - neo4j
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://localhost:8000
+    depends_on:
+      - backend
+
+  postgres:
+    image: postgis/postgis:16-3.4
+    environment:
+      POSTGRES_DB: resqai_db
+      POSTGRES_USER: resqai_user
+      POSTGRES_PASSWORD: resqai_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  neo4j:
+    image: neo4j:5.18.0
+    environment:
+      NEO4J_AUTH: neo4j/resqaipassword
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    volumes:
+      - neo4j_data:/data
+
+volumes:
+  postgres_data:
+  neo4j_data:
